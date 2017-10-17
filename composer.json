@@ -11,8 +11,8 @@
     ],
     "require" : {
         "php" : ">=5.4.0 <7",
-        "kael-shipman/php-jsonapi-objects": "dev-master as 0.8.0",
-        "kael-shipman/php-jsonapi-transport": "dev-master",
+        "kael-shipman/php-jsonapi-objects": "dev-dev-v2 as 0.8.1",
+        "kael-shipman/php-jsonapi-transport": "dev-dev-v2",
         "kael-shipman/php-std-traits": "~3.2.1",
         "guzzlehttp/psr7": "~1.4.3"
     },
