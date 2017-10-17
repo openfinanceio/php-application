@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9203598ca34b4d2348c37d019f456764",
+    "content-hash": "0fba6ab07628f4181b724cd8f5b65fda",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -70,7 +70,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cfxmarkets/php-jsonapi-objects.git",
-                "reference": "852f90d31c58d04bad69f70a9bb4eee0aa538c2e"
+                "reference": "d7382ead1b8e361674a02e321b231486e9b36671"
             },
             "require": {
                 "kael-shipman/php-std-traits": "~3.2",
@@ -105,7 +105,7 @@
                 "json",
                 "jsonapi"
             ],
-            "time": "2017-10-17T05:53:28+00:00"
+            "time": "2017-10-17T14:59:18+00:00"
         },
         {
             "name": "kael-shipman/php-jsonapi-transport",
@@ -113,11 +113,11 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cfxmarkets/php-jsonapi-transport.git",
-                "reference": "52db12a8ed36fae990180438e9e1d18f6f1b0d93"
+                "reference": "1915668edc2190d414eb20c2459b8f32ce11dbd9"
             },
             "require": {
                 "guzzlehttp/psr7": "~1.4.2",
-                "kael-shipman/php-jsonapi-objects": "~0.7",
+                "kael-shipman/php-jsonapi-objects": "dev-dev-v2 as 1.0.0",
                 "php": ">=5.4 <7.1"
             },
             "require-dev": {
@@ -149,7 +149,7 @@
                 "jsonapi",
                 "rest"
             ],
-            "time": "2017-10-12T19:39:22+00:00"
+            "time": "2017-10-17T15:01:47+00:00"
         },
         {
             "name": "kael-shipman/php-std-traits",
@@ -1413,10 +1413,16 @@
     ],
     "aliases": [
         {
-            "alias": "0.8.1",
-            "alias_normalized": "0.8.1.0",
+            "alias": "1.0.0",
+            "alias_normalized": "1.0.0.0",
             "version": "dev-dev-v2",
             "package": "kael-shipman/php-jsonapi-objects"
+        },
+        {
+            "alias": "0.4.0",
+            "alias_normalized": "0.4.0.0",
+            "version": "dev-dev-v2",
+            "package": "kael-shipman/php-jsonapi-transport"
         }
     ],
     "minimum-stability": "stable",
