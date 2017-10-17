@@ -1,0 +1,50 @@
+{
+    "name": "cfxmarkets/php-cfx-framework",
+    "description": "This package provides the public framework objects that CFX uses to build its system.",
+    "keywords": [ "cfx", "api", "brokerage", "exchange", "framework" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CFX and contributors",
+            "homepage": "https://github.com/cfxmarkets/php-api-service/graphs/contributors"
+        }
+    ],
+    "require" : {
+        "php" : ">=5.4.0 <7",
+        "kael-shipman/php-jsonapi-objects": "dev-master as 0.8.0",
+        "kael-shipman/php-jsonapi-transport": "dev-master",
+        "kael-shipman/php-std-traits": "~3.2.1",
+        "guzzlehttp/psr7": "~1.4.3"
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "~4.8.0",
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "CFX\\" : "src/"
+        },
+        "files": [
+            "src/Exceptions.php"
+        ]
+    },
+    "repositories" : [
+        {
+            "type": "git",
+            "url": "https://github.com/cfxmarkets/php-std-traits.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/cfxmarkets/php-jsonapi-objects.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/cfxmarkets/php-jsonapi-transport.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/kael-shipman/psr7.git"
+        }
+    ]
+}
+
