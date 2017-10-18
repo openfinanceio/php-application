@@ -60,6 +60,12 @@ class CorruptDataException extends \RuntimeException { }
 class ResourceNotFoundException extends \InvalidArgumentException { }
 
 /**
+ * UnknownResourceTypeException
+ * The given context does not know how to deal with resources of the given type
+ */
+class UnknownResourceTypeException extends \RuntimeException { }
+
+/**
  * BadInputException
  * Exception specifying that the input data provided is malformed
  */

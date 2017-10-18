@@ -10,6 +10,13 @@ interface DatasourceInterface {
     public function create();
 
     /**
+     * convert -- Converts between two types of instances (@see \KS\JsonApi\ContextInterface::convertJsonApiResource)
+     *
+     * Used primarily for converting between public and private resource types
+     */
+    public function convert(\KS\JsonApi\ResourceInterface $src, $convertTo);
+
+    /**
      * save -- Send the given resource to the API for saving (either by POST or PATCH)
      *
      * @param \CFX\BaseResourceInterface $r The resource to save

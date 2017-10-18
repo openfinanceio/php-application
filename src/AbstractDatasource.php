@@ -1,7 +1,7 @@
 <?php
 namespace CFX;
 
-abstract class AbstractDatasource implements DatasourceInterface {
+abstract class AbstractDatasource implements DatasourceInterface, \KS\JsonApi\ContextInterface {
     protected static $resourceType;
     protected $context;
     protected $currentData;
@@ -9,6 +9,10 @@ abstract class AbstractDatasource implements DatasourceInterface {
     public function __construct(DataContextInterface $context) {
         if (static::$resourceType == null) throw new \RuntimeException("Programmer: You need to define this subclient's `\$resourceType` attribute. This should match the type of resources that this client deals in.");
         $this->context = $context;
+    }
+
+    public function convert(\KS\JsonApi\ResourceInterface $src, $convertTo) {
+        throw new \RuntimeException("Programmer: Don't know how to convert resources to type `$convertTo`.");
     }
 
     /**

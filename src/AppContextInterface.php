@@ -1,7 +1,7 @@
 <?php
 namespace CFX;
 
-interface ConfigInterface extends \KS\ConfigInterface {
+interface AppContextInterface extends \KS\ConfigInterface, \KS\JsonApi\ContextInterface {
     public function getDisplayErrors();
     public function getErrorLevel();
 }

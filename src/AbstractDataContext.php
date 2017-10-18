@@ -1,7 +1,7 @@
 <?php
 namespace CFX;
 
-abstract class AbstractDataContext implements DataContextInterface, \KS\JsonApi\FactoryInterface {
+abstract class AbstractDataContext implements DataContextInterface, \KS\JsonApi\ContextInterface {
     /**
      * A list of valid clients
      */
@@ -18,8 +18,9 @@ abstract class AbstractDataContext implements DataContextInterface, \KS\JsonApi\
     /**
      * Instantiate a client with the given `$name`
      */
-    abstract protected function instantiateClient($name);
-
+    protected function instantiateClient($name) {
+        throw new UnknownDatasourceException("Programmer: Don't know how to handle datasources of type `$name`. If you'd like to handle this, you should either add this datasource to the `instantiateClient` method in this class or create a derivative class to which to add it.");
+    }
 
 
 
@@ -34,6 +35,18 @@ abstract class AbstractDataContext implements DataContextInterface, \KS\JsonApi\
         if ($type == 'generic') return new \KS\JsonApi\GenericResource($datasource, $data, $validAttrs, $validRels);
 
         throw new \KS\JsonApi\UnknownResourceTypeException("Type `$type` is unknown. You can handle this type by overriding the `newJsonApiResource` method in your factory and adding a handler for the type there.");
+    }
+    public function convertJsonApiResource(\KS\JsonApi\ResourceInterface $src, $conversionType) {
+        try {
+            $type = explode('-', $src->getResourceType());
+            for($i = 0; $i < count($type); $i++) $type[$i] = ucfirst($type[$i]);
+            $type = implode('', $type);
+
+            $client = $this->$type;
+            return $client->convert($src, $conversionType);
+        } catch (UnknownDatasourceException $e) {
+            throw new UnknownResourceTypeException("Programmer: You've tried to convert a resource of type `{$src->getResourceType()}` to it's `$conversionType` format, but this data context (`".get_class($this)."`) doesn't know how to handle this type of resource.");
+        }
     }
     public function newJsonApiRelationship($data) { return new \KS\JsonApi\Relationship($this, $data); }
     public function newJsonApiError($data) { return new \KS\JsonApi\Error($this, $data); }
