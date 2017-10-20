@@ -3,23 +3,23 @@ namespace CFX;
 
 abstract class AbstractDataContext implements DataContextInterface, \KS\JsonApi\ContextInterface {
     /**
-     * A list of valid clients
+     * Cache of child datasources
      */
-    protected $clients = [];
+    protected $datasources;
 
     /**
      * Convenience method for turning datasource "getter" methods into read-only properties
      */
     public function __get($name) {
-        if (!array_key_exists($name, $this->clients)) $this->clients[$name] = $this->instantiateClient($name);
-        return $this->clients[$name];
+        if (!array_key_exists($name, $this->datasources)) $this->datasources[$name] = $this->instantiateDatasource($name);
+        return $this->datasources[$name];
     }
 
     /**
      * Instantiate a client with the given `$name`
      */
-    protected function instantiateClient($name) {
-        throw new UnknownDatasourceException("Programmer: Don't know how to handle datasources of type `$name`. If you'd like to handle this, you should either add this datasource to the `instantiateClient` method in this class or create a derivative class to which to add it.");
+    protected function instantiateDatasource($name) {
+        throw new UnknownDatasourceException("Programmer: Don't know how to handle datasources of type `$name`. If you'd like to handle this, you should either add this datasource to the `instantiateDatasource` method in this class or create a derivative class to which to add it.");
     }
 
 

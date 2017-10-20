@@ -1,8 +1,8 @@
 <?php
 namespace CFX\Test;
 
-class Person extends \CFX\BaseResource implements PersonInterface {
-    protected $resourceType = 'test-person';
+class Person extends \CFX\AbstractDataObject implements PersonInterface {
+    protected $resourceType = 'people';
     protected $attributes = [
         'name' => null,
         'dob' => null,

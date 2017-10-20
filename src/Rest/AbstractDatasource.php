@@ -26,7 +26,7 @@ abstract class AbstractDatasource extends \CFX\AbstractDatasource implements Dat
 
     public function sendRequest($method, $endpoint, array $params=[]) {
         // Composer URI
-        $uri = $this->context->getBaseUri()."/v".$this->context->getApiVersion().$endpoint;
+        $uri = $this->composeUri($endpoint);
 
         // Add Authorization header if necessary
 
@@ -43,6 +43,10 @@ abstract class AbstractDatasource extends \CFX\AbstractDatasource implements Dat
 
         $r = $this->context->getHttpClient()->createRequest($method, $uri, $params);
         return $this->processResponse($this->context->getHttpClient()->send($r));
+    }
+
+    protected function composeUri($endpoint) {
+        return $this->context->getBaseUri()."/v".$this->context->getApiVersion().$endpoint;
     }
 
     protected function processResponse($r) {

@@ -1,46 +1,18 @@
 <?php
 namespace CFX\Test;
 
-class UsersDatabase extends \CFX\Factory implements \CFX\DatasourceInterface {
-    protected $db;
-    protected $currentData;
-
-    public function __construct(DataContextInterface $db) {
-        $this->db = $db;
-    }
-
-    public function getCurrentData() {
-        $data = $this->currentData;
-        $this->currentData = null;
-        return $data;
-    }
+class PeopleGenericDatasource extends \CFX\AbstractDatasource {
+    protected static $resourceType = 'people';
 
     public function create(array $data=[]) {
-        return new User($this, $data);
+        return new Person($this, $data);
     }
 
     public function get($q=null, $raw=false) {
-        $query = $this->newSQLQuery([
-            'action' => 'SELECT',
-            'fields' => 'name, dob, bestFriend',
-            'preposition' => 'FROM',
-            'tables' => '`users`',
-            'where' => null,
-            'params' => [],
+        $q = parseDSL($q);
+        if ($q->requestingCollection()) return $this->context->newJsonApiResourceCollection([
+            $this->context->new
         ]);
-        if ($q && substr($q, 0, 3) == 'id=') {
-            $query->where = '`id` = ?';
-            $query->params = array_merge($query->params, [substr($q, 3)]);
-            $isCollection = false;
-        } else {
-            $isCollection = true;
-        }
-
-        $data = $this->db->executeQuery($query);
-        return $raw ?
-            $data :
-            $this->inflateData($data, $isCollection)
-        ;
     }
 
     public function save(\CFX\BaseResourceInterface $r) {
