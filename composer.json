@@ -1,6 +1,6 @@
 {
-    "name": "cfxmarkets/php-cfx-framework",
-    "description": "This package provides the public framework objects that CFX uses to build its system.",
+    "name": "cfxmarkets/php-application",
+    "description": "This package provides the base application classes that are commonly used in CFX applications.",
     "keywords": [ "cfx", "api", "brokerage", "exchange", "framework" ],
     "license": "MIT",
     "authors": [
@@ -10,15 +10,16 @@
         }
     ],
     "require" : {
-        "php" : ">=5.4.0 <7",
-        "kael-shipman/php-jsonapi-objects": "dev-dev-v2 as 1.0.0",
-        "kael-shipman/php-jsonapi-transport": "dev-dev-v2 as 0.4.0",
+        "php" : ">=5.4.0",
+        "cfxmarkets/php-jsonapi-transport": "0.5.x-dev",
         "kael-shipman/php-std-traits": "~3.2.1",
         "guzzlehttp/psr7": "~1.4.3"
     },
     "require-dev" : {
         "phpunit/phpunit" : "~4.8.0",
-        "guzzlehttp/guzzle": "~5.0"
+        "guzzlehttp/guzzle": "~5.0",
+
+        "cfxmarkets/php-jsonapi-objects": "1.0.x-dev"
     },
     "autoload" : {
         "psr-4" : {
@@ -34,12 +35,12 @@
             "url": "https://github.com/cfxmarkets/php-std-traits.git"
         },
         {
-            "type": "git",
-            "url": "https://github.com/cfxmarkets/php-jsonapi-objects.git"
+            "type": "path",
+            "url": "../../php-jsonapi-objects"
         },
         {
-            "type": "git",
-            "url": "https://github.com/cfxmarkets/php-jsonapi-transport.git"
+            "type": "path",
+            "url": "../../php-jsonapi-transport"
         },
         {
             "type": "git",

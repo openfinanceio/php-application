@@ -1,7 +1,7 @@
 <?php
 namespace CFX;
 
-interface AppContextInterface extends \KS\ConfigInterface, \KS\JsonApi\ContextInterface {
+interface AppContextInterface extends \KS\ConfigInterface {
     public function getDisplayErrors();
     public function getErrorLevel();
     public function serverRequestFromGlobals();
