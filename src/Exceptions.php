@@ -143,3 +143,15 @@ class AuthzUnauthorizedUserException extends AuthzException { }
  */
 class AuthzMissingCredentialsException extends AuthzException { }
 
+
+
+
+
+
+
+
+
+// Miscellaneous exceptions
+
+class PathOverconsumedException extends \RuntimeException { }
+
