@@ -220,4 +220,42 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue(true, "This is the expected behavior");
         }
     }
+
+    public function testPathConsumptionResetsOnUriChange()
+    {
+        $r = new \CFX\Request('GET', "http://foo.com:8125/bar/baz/bizzle");
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("bar", $part);
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("baz", $part);
+
+        $r = $r->withUri(new \GuzzleHttp\Psr7\Uri('http://foo.com:8125/bar/baz/sizzle'));
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("bar", $part);
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("baz", $part);
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("sizzle", $part);
+    }
+
+    public function testPathConsumptionDoesntResetWhenNewUriIsTheSame()
+    {
+        $r = new \CFX\Request('GET', "http://foo.com:8125/bar/baz/bizzle");
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("bar", $part);
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("baz", $part);
+
+        $r = $r->withUri(new \GuzzleHttp\Psr7\Uri('http://foo.com:8125/bar/baz/bizzle'));
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("bizzle", $part);
+    }
 }
