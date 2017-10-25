@@ -6,8 +6,6 @@ namespace CFX;
  */
 class ServerRequest extends Request implements ServerRequestInterface
 {
-    private $isAuthenticated;
-
     /**
      * @param string                               $method       HTTP method
      * @param string|UriInterface                  $uri          URI
@@ -205,21 +203,17 @@ class ServerRequest extends Request implements ServerRequestInterface
 
 
 
+    /**
+     * getRequestClass -- Get the fully-qualified class name of the underlying class that provides functionality for this class.
+     *
+     * This is a sort of factory method, as this class name is used both to instantiate as well as to access certain static
+     * functions.
+     *
+     * @return string The fully-qualified class name of the psr7-compatible implementing class
+     */
     protected static function getRequestClass()
     {
         return "\\GuzzleHttp\\Psr7\\ServerRequest";
-    }
-
-
-
-    // Added functionality
-
-    public function authenticate() {
-        $this->authenticated = true;
-    }
-
-    public function isAuthenticated() {
-        return $this->isAuthenticated;
     }
 }
 

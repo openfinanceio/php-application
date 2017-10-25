@@ -258,4 +258,45 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $part = $r->consumePathPart();
         $this->assertEquals("bizzle", $part);
     }
+
+    public function testPathPositionIsCorrect() {
+        $r = new \CFX\Request('GET', "http://foo.com:8125/bar/baz/bizzle");
+
+        $this->assertEquals(0, $r->getCurrentPathPosition());
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("bar", $part);
+
+        $this->assertEquals(1, $r->getCurrentPathPosition());
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("baz", $part);
+
+        $this->assertEquals(2, $r->getCurrentPathPosition());
+
+        $r = $r->withUri(new \GuzzleHttp\Psr7\Uri('http://foo.com:8125/bar/baz/sizzle'));
+
+        $this->assertEquals(0, $r->getCurrentPathPosition());
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("bar", $part);
+
+        $this->assertEquals(1, $r->getCurrentPathPosition());
+
+        $r = $r->withUri(new \GuzzleHttp\Psr7\Uri('http://foo.com:8125/bar/baz/sizzle'));
+
+        $part = $r->consumePathPart();
+        $this->assertEquals("baz", $part);
+
+        $this->assertEquals(2, $r->getCurrentPathPosition());
+    }
+
+    public function testPeekPathPartDoesntConsumePath() {
+        $r = new \CFX\Request('GET', 'http://foo.com:8125/bar/baz/sizzle');
+
+        $peek = $r->peekPathPart();
+        $this->assertEquals('bar', $peek);
+        $this->assertEquals(0, $r->getCurrentPathPosition());
+        $this->assertEquals('bar', $r->peekPathPart());
+    }
 }

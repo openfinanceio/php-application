@@ -32,6 +32,9 @@ class UnpreparedObjectException extends \RuntimeException { }
 
 class ProtocolException extends \RuntimeException { }
 
+/** The URL is not formatted correctly **/
+class BadUriFormatException extends ProtocolException { }
+
 
 
 

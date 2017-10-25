@@ -76,12 +76,8 @@ trait MessageTrait {
 
 
 
-
     /**
-     * consumePathPart -- consume the next portion of the path, moving the index ahead by one
-     *
-     * @return string $pathPart The part of the path consumed
-     * @throws PathOverconsumedException
+     * {@inheritdoc}
      */
     public function consumePathPart()
     {
@@ -89,6 +85,25 @@ trait MessageTrait {
         if ($this->pathIndex >= count($path)) throw new PathOverconsumedException("You've tried to consume the next section of the path, but the entire path has already been consumed!");
         return $path[$this->pathIndex++];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCurrentPathPosition()
+    {
+        return $this->pathIndex;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function peekPathPart()
+    {
+        $path = explode('/', trim($this->getUri()->getPath(), '/'));
+        if ($this->pathIndex >= count($path)) return null;
+        return $path[$this->pathIndex];
+    }
+
 
 
 
