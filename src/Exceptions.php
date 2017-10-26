@@ -120,6 +120,9 @@ class UninitializedResourceException extends \RuntimeException { }
 /** General Authn exception */
 class AuthnException extends \RuntimeException { }
 
+/** Required credentials are missing */
+class AuthnMissingCredentialsException extends AuthnException { }
+
 /** The credentials passed are invalid. */
 class AuthnInvalidCredentialsException extends AuthnException { }
 
