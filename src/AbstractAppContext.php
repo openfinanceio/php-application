@@ -2,6 +2,8 @@
 namespace CFX;
 
 abstract class AbstractAppContext extends \KS\BaseConfig implements AppContextInterface {
+    protected $httpClient;
+
     public function getDisplayErrors() { return $this->get('php-display-errors'); }
     public function getErrorLevel() { return $this->get('php-error-level'); }
 

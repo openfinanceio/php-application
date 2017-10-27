@@ -78,11 +78,21 @@ class BadInputException extends \InvalidArgumentException {
     public function setInputErrors($errors) {
         if (!is_array($errors)) throw new \RuntimeException("Errors passed to `BadInputException::setInputErrors` must be an array of `\KS\JsonApi\ErrorInterface` objects.");
         foreach ($errors as $e) {
-            if (!($e instanceof \KS\JsonApi\ErrorInterface)) throw new \RuntimeException("Errors passed to `BadInputException::setInputErrors` must be an array of `\KS\JsonApi\ErrorInterface` objects.");
+            if (!($e instanceof \CFX\JsonApi\ErrorInterface)) throw new \RuntimeException("Errors passed to `BadInputException::setInputErrors` must be an array of `\KS\JsonApi\ErrorInterface` objects.");
         }
         $this->inputErrors = $errors;
         return $this;
     }
+/*
+    public function getMessage() {
+        $msg = parent::getMessage();
+        $msg .= "\n\nErrors:\n";
+        foreach($this->inputErrors as $e) {
+            $msg .= "\n  {$e->getTitle()}: {$e->getDetail()}";
+        }
+        return $msg;
+    }
+ */
 }
 
 /**
