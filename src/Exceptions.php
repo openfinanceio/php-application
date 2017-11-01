@@ -159,6 +159,11 @@ class AuthzUnauthorizedUserException extends AuthzException { }
  */
 class AuthzMissingCredentialsException extends AuthzException { }
 
+/**
+ * The requested action requires an authenticated user
+ */
+class AuthzUnauthenticatedRequestException extends AuthzException { }
+
 
 
 
