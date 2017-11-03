@@ -27,6 +27,21 @@ class PDOStatement {
         $this->testData = null;
         return $data;
     }
+
+    public function columnCount() {
+        if (is_array($this->testData) && count($this->testData) > 0) {
+            $data = $this->testData[0];
+            if (is_array($data)) {
+                return count($data);
+            }
+        }
+
+        if (strpos(trim(strtolower($this->queryString)), 'select') === 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
 
 

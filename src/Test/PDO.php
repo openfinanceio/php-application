@@ -3,6 +3,7 @@ namespace CFX\Test;
 
 class PDO {
     protected $testData = [];
+    protected $lastInsertId;
 
     public function setTestData($key, array $data) {
         if (count($data) > 0 && !is_numeric(implode('', array_keys($data)))) throw new \RuntimeException("Test data should be an array of data arrays. For example: `setTestData('SELECT * FROM....', [['name' => 'Jim', 'dob' => '12345']])`.");
