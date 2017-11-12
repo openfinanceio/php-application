@@ -1,12 +1,8 @@
 <?php
 namespace CFX\Test;
 
-class DataContext implements DataContextInterface {
-    protected $f;
-    protected $db = [];
-    protected $clients = ['users'];
-
-    public function __construct(Config $cnf) {
+class SqlDataContext extends \CFX\AbstractDataContext {
+    public function __construct(AppContextInterface $cnf) {
         $pdos = $cnf->getCFXPdos();
         if (!is_array($pdos)) $pdos = array('default' => $pdos);
 
@@ -54,13 +50,13 @@ class DataContext implements DataContextInterface {
 
     public function __get($name) {
         if (!array_key_exists($name, $this->clients)) throw new \RuntimeException("Programmer: client `$name` doesn't exist on this database.");
-        if ($this->clients[$name] === null) $this->clients[$name] = $this->instantiateClient($name);
+        if ($this->clients[$name] === null) $this->clients[$name] = $this->instantiateDatasource($name);
         return $this->clients[$name];
     }
 
-    protected function instantiateClient($name) {
+    protected function instantiateDatasource($name) {
         if ($name == 'users') return new UsersDatabase($this);
-        throw new \RuntimeException("Don't know how to create `$name` clients. Please add `$name` to the factory method `instantiateClient`");
+        throw new \RuntimeException("Don't know how to create `$name` clients. Please add `$name` to the factory method `instantiateDatasource`");
     }
 }
 

@@ -3,6 +3,7 @@ namespace CFX\Test;
 
 class PDO {
     protected $testData = [];
+    protected $lastInsertId;
 
     public function setTestData($key, array $data) {
         if (count($data) > 0 && !is_numeric(implode('', array_keys($data)))) throw new \RuntimeException("Test data should be an array of data arrays. For example: `setTestData('SELECT * FROM....', [['name' => 'Jim', 'dob' => '12345']])`.");
@@ -12,7 +13,7 @@ class PDO {
     }
     protected function getTestData($key) {
         if (!array_key_exists($key, $this->testData)) $this->testData[$key] = [];
-        if (count($this->testData[$key]) == 0) throw \RuntimeException("Programmer: You need to set test data for `$key` using the `setTestData` method of your test datasource.");
+        if (count($this->testData[$key]) == 0) throw new \RuntimeException("Programmer: You need to set test data for `$key` using the `setTestData` method of your test datasource.");
         
         $data = array_pop($this->testData[$key]);
 
@@ -25,7 +26,7 @@ class PDO {
 
     public function prepare($query) {
         $data = $this->getTestData($query);
-        return new PDOStatement($query, $data);
+        return new PDOStatement($this, $query, $data);
     }
 
     public function setLastInsertId($id) {

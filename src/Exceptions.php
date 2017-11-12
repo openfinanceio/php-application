@@ -32,6 +32,9 @@ class UnpreparedObjectException extends \RuntimeException { }
 
 class ProtocolException extends \RuntimeException { }
 
+/** The URL is not formatted correctly **/
+class BadUriFormatException extends ProtocolException { }
+
 
 
 
@@ -60,6 +63,12 @@ class CorruptDataException extends \RuntimeException { }
 class ResourceNotFoundException extends \InvalidArgumentException { }
 
 /**
+ * UnknownResourceTypeException
+ * The given context does not know how to deal with resources of the given type
+ */
+class UnknownResourceTypeException extends \RuntimeException { }
+
+/**
  * BadInputException
  * Exception specifying that the input data provided is malformed
  */
@@ -69,11 +78,21 @@ class BadInputException extends \InvalidArgumentException {
     public function setInputErrors($errors) {
         if (!is_array($errors)) throw new \RuntimeException("Errors passed to `BadInputException::setInputErrors` must be an array of `\KS\JsonApi\ErrorInterface` objects.");
         foreach ($errors as $e) {
-            if (!($e instanceof \KS\JsonApi\ErrorInterface)) throw new \RuntimeException("Errors passed to `BadInputException::setInputErrors` must be an array of `\KS\JsonApi\ErrorInterface` objects.");
+            if (!($e instanceof \CFX\JsonApi\ErrorInterface)) throw new \RuntimeException("Errors passed to `BadInputException::setInputErrors` must be an array of `\KS\JsonApi\ErrorInterface` objects.");
         }
         $this->inputErrors = $errors;
         return $this;
     }
+/*
+    public function getMessage() {
+        $msg = parent::getMessage();
+        $msg .= "\n\nErrors:\n";
+        foreach($this->inputErrors as $e) {
+            $msg .= "\n  {$e->getTitle()}: {$e->getDetail()}";
+        }
+        return $msg;
+    }
+ */
 }
 
 /**
@@ -111,6 +130,9 @@ class UninitializedResourceException extends \RuntimeException { }
 /** General Authn exception */
 class AuthnException extends \RuntimeException { }
 
+/** Required credentials are missing */
+class AuthnMissingCredentialsException extends AuthnException { }
+
 /** The credentials passed are invalid. */
 class AuthnInvalidCredentialsException extends AuthnException { }
 
@@ -136,4 +158,21 @@ class AuthzUnauthorizedUserException extends AuthzException { }
  * The credentials required for authorization are missing
  */
 class AuthzMissingCredentialsException extends AuthzException { }
+
+/**
+ * The requested action requires an authenticated user
+ */
+class AuthzUnauthenticatedRequestException extends AuthzException { }
+
+
+
+
+
+
+
+
+
+// Miscellaneous exceptions
+
+class PathOverconsumedException extends \RuntimeException { }
 

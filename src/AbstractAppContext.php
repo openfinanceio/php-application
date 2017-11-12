@@ -1,13 +1,19 @@
 <?php
 namespace CFX;
 
-abstract class AbstractConfig extends \KS\BaseConfig implements ConfigInterface {
+abstract class AbstractAppContext extends \KS\BaseConfig implements AppContextInterface {
     protected $httpClient;
-    protected $pdos = [];
 
     public function getDisplayErrors() { return $this->get('php-display-errors'); }
     public function getErrorLevel() { return $this->get('php-error-level'); }
 
+
+
+
+    /***
+     * The following methods are not explicitly required by the context interface, but fulfill other context
+     * requirements that are common enough to include here anyway.
+     ***/
     public function getPdo($name='default') {
         if (!array_key_exists($name, $this->pdos)) {
             $pdos = $this->get('cfx-pdos');
