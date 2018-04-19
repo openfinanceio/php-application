@@ -1,0 +1,1 @@
+<?php return [ 'exec-profile' => 'dev', 'php-display-errors' => true, 'php-error-level' => E_ALL ];
