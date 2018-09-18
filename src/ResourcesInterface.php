@@ -8,7 +8,7 @@ namespace CFX;
  * While this most general interface only provides a logger, the extended versions typically in
  * use will provide a database connection, an MQ connection, an emailer, etc...
  */
-interface ResourceInterface
+interface ResourcesInterface
 {
     /**
      * Get an instance of a logger
