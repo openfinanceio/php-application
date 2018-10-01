@@ -45,6 +45,13 @@ class BadUriFormatException extends ProtocolException { }
 
 
 
+// Problems communicating with an upstream service
+class UpstreamServiceException extends \CFX\Exception { }
+
+
+
+
+
 
 
 // Data Domain Exceptions

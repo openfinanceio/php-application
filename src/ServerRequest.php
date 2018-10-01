@@ -6,6 +6,8 @@ namespace CFX;
  */
 class ServerRequest extends Request implements ServerRequestInterface
 {
+    protected $apiKey = null;
+
     /**
      * @param string                               $method       HTTP method
      * @param string|UriInterface                  $uri          URI
@@ -214,6 +216,24 @@ class ServerRequest extends Request implements ServerRequestInterface
     protected static function getRequestClass()
     {
         return "\\GuzzleHttp\\Psr7\\ServerRequest";
+    }
+
+
+
+
+
+
+
+    // CFX-Specific functions
+
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    public function setApiKey($val)
+    {
+        $this->apiKey = $val;
     }
 }
 
