@@ -56,4 +56,25 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($r1, $this->httpClient->send(new \GuzzleHttp\Psr7\Request("GET", "/test")));
         $this->assertSame($r2, $this->httpClient->send(new \GuzzleHttp\Psr7\Request("GET", "/test")));
     }
+
+    /**
+     * @dataProvider httpMethodsProvider
+     */
+    public function testAllHttpMethodsAreStubbedOut($method)
+    {
+        $r = new \GuzzleHttp\Psr7\Response();
+        $this->httpClient->setNextResponse($r);
+        $this->assertSame($r, $this->httpClient->$method("/test"));
+    }
+
+    public function httpMethodsProvider()
+    {
+        return [
+            [ "get" ],
+            [ "post" ],
+            [ "patch" ],
+            [ "put" ],
+            [ "delete" ],
+        ];
+    }
 }
