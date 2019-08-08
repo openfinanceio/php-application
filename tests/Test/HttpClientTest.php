@@ -26,7 +26,7 @@ class HttpClientTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals(
                 "This is a test HTTP Client that does not make real HTTP calls. You must set the response ".
                 "for the request you're about to execute by using the `setNextResponse(\GuzzleHttp\Message".
-                "\ResponseInterface \$r)` method.",
+                "\ResponseInterface \$r)` method.\n\nRequest details: GET /test",
                 $e->getMessage()
             );
         }
