@@ -5,9 +5,66 @@ namespace CFX;
 // General Runtime Exceptions
 
 /**
+ * Adds obstruction management to any exception class
+ */
+trait ObstructionsTrait {
+    protected $obstructions = [];
+
+    public function setObstructions(array $obstructions)
+    {
+        $this->obstructions = $obstructions;
+        return $this;
+    }
+
+    public function getObstructions(): array
+    {
+        return $this->obstructions;
+    }
+
+    /**
+     * @param {
+     *   code: string;
+     *   text: string;
+     *   params?: any;
+     * } $obstruction
+     */
+    public function addObstruction(array $obstruction): Exception
+    {
+        $this->obstructions[] = $obstruction;
+        return $this;
+    }
+
+    public function getJsonApiObstructions(): array
+    {
+        $obstructions = [];
+        foreach($this->obstructions as $o) {
+            $obstructions[] = [
+                "id" => $o["code"],
+                "type" => "obstructions",
+                "attributes" => [
+                    "detail" => $o["text"],
+                    "params" => $o["params"] ?? null,
+                ]
+            ];
+        }
+        return $obstructions;
+    }
+}
+
+/**
  * A general exception from which all other CFX exceptions should be derived
  */
-class Exception extends \RuntimeException {}
+class Exception extends \RuntimeException {
+  use ObstructionsTrait;
+}
+
+/**
+ * A general InvalidArgumentException from which all CFX Input-type exceptions
+ * should be derived.
+ */
+class InvalidArgumentException extends \InvalidArgumentException {
+  use ObstructionsTrait;
+}
 
 /**
  * An exception for debugging other exceptions (Exceptions that are usually caught can be wrapped in this exception,
@@ -72,7 +129,7 @@ class CorruptDataException extends \CFX\Exception { }
  * ResourceNotFoundException
  * Someone has sought a resource using an id that's not in the database
  */
-class ResourceNotFoundException extends \InvalidArgumentException { }
+class ResourceNotFoundException extends \CFX\InvalidArgumentException { }
 
 /**
  * UnknownResourceTypeException
@@ -84,7 +141,7 @@ class UnknownResourceTypeException extends \CFX\Exception { }
  * BadInputException
  * Exception specifying that the input data provided is malformed
  */
-class BadInputException extends \InvalidArgumentException {
+class BadInputException extends \CFX\InvalidArgumentException {
     protected $inputErrors = [];
     public function getInputErrors() { return $this->inputErrors; }
     public function setInputErrors($errors) {
@@ -95,16 +152,6 @@ class BadInputException extends \InvalidArgumentException {
         $this->inputErrors = $errors;
         return $this;
     }
-/*
-    public function getMessage() {
-        $msg = parent::getMessage();
-        $msg .= "\n\nErrors:\n";
-        foreach($this->inputErrors as $e) {
-            $msg .= "\n  {$e->getTitle()}: {$e->getDetail()}";
-        }
-        return $msg;
-    }
- */
 }
 
 /**
