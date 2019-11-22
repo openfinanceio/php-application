@@ -4,6 +4,18 @@ namespace CFX\Test;
 class HttpClient extends \GuzzleHttp\Client {
     protected $nextResponse = [];
     protected $requestTrace = [];
+    protected $logger;
+
+    public function setLogger(\PSR\Log\LoggerInterface $log)
+    {
+        $this->logger = $log;
+    }
+
+    public function log($level, $msg) {
+        if ($this->logger) {
+            $this->logger->log($level, $msg);
+        }
+    }
 
     public function setNextResponse($r) {
         if (
@@ -13,6 +25,11 @@ class HttpClient extends \GuzzleHttp\Client {
             throw new \TypeError("First argument must be a \Psr\Http\Message\ResponseInterface or some kind of exception");
         }
         $this->nextResponse[] = $r;
+
+        $this->log("INFO", "CFX\Test\HttpClient: SETTING NEXT RESPONSE");
+        $this->log("DEBUG", "CFX\Test\HttpClient: ".($r instanceof \Exception ? "EXCEPTION RESPONSE" : "{$r->getStatusCode()} {$r->getBody()}"));
+        $this->log("INFO", "CFX\Test\HttpClient: ".count($this->nextResponse)." IN QUEUE");
+
         return $this;
     }
 
@@ -44,6 +61,19 @@ class HttpClient extends \GuzzleHttp\Client {
 
         $this->requestTrace[] = $request;
         $res = array_shift($this->nextResponse);
+
+        $this->log("INFO", "CFX\Test\HttpClient: GETTING RESPONSE FOR {$request->getMethod()} {$request->getUri()}");
+        $this->log("DEBUG", "CFX\Test\HttpClient: {$res->getStatusCode()} {$res->getBody()}");
+        $this->log("INFO", "CFX\Test\HttpClient: ".count($this->nextResponse)." remaining");
+        /*
+        $this->log("DEBUG", "CFX\Test\HttpClient: REMAINING QUEUE: ".json_encode(array_map(function($v) {
+            if ($v instanceof \Exception) {
+                return [ "type" => "exception", "message" => $v->getMessage() ];
+            } else {
+                return [ "type" => "response", "status" => $v->getStatusCode(), "body" => (string)$v->getBody() ];
+            }
+        }, $this->nextResponse), JSON_PRETTY_PRINT));
+         */
 
         if ($res instanceof \Exception) {
             throw $res;
