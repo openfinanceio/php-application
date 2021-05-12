@@ -130,7 +130,7 @@ class HttpClient extends \GuzzleHttp\Client {
             $options['body'] = http_build_query($options['form_params'], '', '&');
             unset($options['form_params']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional'] ?? []);
             $options['_conditional']['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
@@ -143,7 +143,7 @@ class HttpClient extends \GuzzleHttp\Client {
             $options['body'] = \GuzzleHttp\json_encode($options['json']);
             unset($options['json']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional'] ?? []);
             $options['_conditional']['Content-Type'] = 'application/json';
         }
 
@@ -151,7 +151,7 @@ class HttpClient extends \GuzzleHttp\Client {
             && $options['decode_content'] !== true
         ) {
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Accept-Encoding'], $options['_conditional']);
+            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Accept-Encoding'], $options['_conditional'] ?? []);
             $modify['set_headers']['Accept-Encoding'] = $options['decode_content'];
         }
 
@@ -209,7 +209,7 @@ class HttpClient extends \GuzzleHttp\Client {
         if ($request->getBody() instanceof \GuzzleHttp\Psr7\MultipartStream) {
             // Use a multipart/form-data POST if a Content-Type is not set.
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = \GuzzleHttp\Psr7\_caseless_remove(['Content-Type'], $options['_conditional'] ?? []);
             $options['_conditional']['Content-Type'] = 'multipart/form-data; boundary='
                 . $request->getBody()->getBoundary();
         }
