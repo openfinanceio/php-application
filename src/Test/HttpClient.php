@@ -27,7 +27,7 @@ class HttpClient extends \GuzzleHttp\Client {
         $this->nextResponse[] = $r;
 
         $this->log("INFO", "CFX\Test\HttpClient: SETTING NEXT RESPONSE");
-        $this->log("DEBUG", "CFX\Test\HttpClient: ".($r instanceof \Exception ? "EXCEPTION RESPONSE" : "{$r->getStatusCode()} {$r->getBody()}"));
+        $this->log("DEBUG", "CFX\Test\HttpClient: ".($r instanceof \Exception ? "EXCEPTION RESPONSE ({$r->getMessage()})" : "{$r->getStatusCode()} {$r->getBody()}"));
         $this->log("INFO", "CFX\Test\HttpClient: ".count($this->nextResponse)." IN QUEUE");
 
         return $this;
@@ -63,7 +63,7 @@ class HttpClient extends \GuzzleHttp\Client {
         $res = array_shift($this->nextResponse);
 
         $this->log("INFO", "CFX\Test\HttpClient: GETTING RESPONSE FOR {$request->getMethod()} {$request->getUri()}");
-        $this->log("DEBUG", "CFX\Test\HttpClient: {$res->getStatusCode()} {$res->getBody()}");
+        $this->log("DEBUG", "CFX\Test\HttpClient: ".($res instanceof \Exception ? "EXCEPTION RESPONSE ({$res->getMessage()})" : "{$res->getStatusCode()} {$res->getBody()}"));
         $this->log("INFO", "CFX\Test\HttpClient: ".count($this->nextResponse)." remaining");
         /*
         $this->log("DEBUG", "CFX\Test\HttpClient: REMAINING QUEUE: ".json_encode(array_map(function($v) {
